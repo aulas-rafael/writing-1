@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Daily Routine · Writing Task</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+
+  :root{
+    --b900:#062242;
+    --b800:#0b3164;
+    --b700:#14498c;
+    --b600:#1d64c7;
+    --b500:#2f7feb;
+    --b300:#8fbcf7;
+    --b100:#dbe9ff;
+    --b50:#f1f7ff;
+    --ink:#0e2742;
+    --muted:#4d6d94;
+    --white:#ffffff;
+    --r:22px;
+    --shadow:0 20px 45px -22px rgba(9,42,84,.5);
+  }
+
+  html,body{height:100%}
+
+  body{
+    margin:0;
+    font-family:'Nunito',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(900px 520px at 8% -12%, #cfe2ff 0%, transparent 62%),
+      radial-gradient(820px 520px at 102% -4%, #b9d6ff 0%, transparent 58%),
+      linear-gradient(180deg,#eef5ff 0%,#e2edff 100%);
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .app{
+    height:100dvh;
+    display:grid;
+    grid-template-rows:auto minmax(0,1fr) auto;
+  }
+
+  /* ---------- TOPBAR ---------- */
+  .topbar{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:14px clamp(14px,3vw,34px) 6px;
+  }
+  .brand{
+    display:flex;align-items:center;gap:10px;
+    font-weight:800;color:var(--b800);font-size:.9rem;letter-spacing:.02em;
+  }
+  .brand .logo{
+    width:34px;height:34px;border-radius:11px;
+    background:linear-gradient(140deg,var(--b500),var(--b700));
+    display:grid;place-items:center;color:#fff;
+    font-family:'Baloo 2',sans-serif;font-size:1rem;
+    box-shadow:0 8px 18px -8px rgba(20,73,140,.9);
+    flex:none;
+  }
+  .brand small{display:block;font-size:.7rem;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+  .counter{
+    font-weight:800;color:var(--b700);background:#fff;border:1px solid var(--b100);
+    padding:7px 15px;border-radius:999px;font-size:.82rem;white-space:nowrap;
+    box-shadow:0 8px 20px -16px rgba(9,42,84,.7);
+  }
+  .counter b{color:var(--b600)}
+
+  /* ---------- STAGE / SLIDES ---------- */
+  .stage{position:relative;overflow:hidden;padding:4px clamp(10px,2.5vw,30px)}
+
+  .slide{
+    position:absolute;inset:0;
+    padding:16px clamp(14px,3vw,42px) 30px;
+    overflow-y:auto;overflow-x:hidden;
+    opacity:0;transform:translateX(42px) scale(.98);
+    transition:opacity .45s ease, transform .5s cubic-bezier(.22,.8,.25,1);
+    pointer-events:none;
+  }
+  .slide.active{opacity:1;transform:none;pointer-events:auto}
+  .slide.exit-left{opacity:0;transform:translateX(-42px) scale(.98)}
+  .slide.exit-right{opacity:0;transform:translateX(42px) scale(.98)}
+
+  .slide::-webkit-scrollbar{width:10px}
+  .slide::-webkit-scrollbar-thumb{background:#c6dcfb;border-radius:999px}
+  .slide::-webkit-scrollbar-track{background:transparent}
+
+  .slide-title{
+    display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+    font-family:'Baloo 2','Nunito',sans-serif;
+    font-size:clamp(1.35rem,2.4vw,1.9rem);
+    color:var(--b800);margin:0 0 16px;line-height:1.15;
+  }
+  .badge{
+    display:grid;place-items:center;min-width:46px;height:32px;padding:0 12px;
+    border-radius:999px;background:linear-gradient(140deg,var(--b500),var(--b700));
+    color:#fff;font-family:'Nunito',sans-serif;font-size:.78rem;font-weight:800;
+    letter-spacing:.08em;
+    box-shadow:0 10px 20px -12px rgba(20,73,140,.95);
+  }
+
+  /* ---------- CARDS ---------- */
+  .card{
+    background:rgba(255,255,255,.94);
+    border:1px solid #e2edff;
+    border-radius:var(--r);
+    padding:clamp(14px,2vw,22px);
+    box-shadow:var(--shadow);
+  }
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  .adapt-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+  .lang{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--b600);margin-bottom:10px;
+  }
+  .lang .flag{font-size:1rem;letter-spacing:0}
+
+  p{margin:0 0 10px;line-height:1.62;font-size:clamp(.94rem,1.05vw,1.04rem)}
+  p:last-child{margin-bottom:0}
+
+  .hl{
+    background:linear-gradient(180deg,transparent 56%, #bfd9ff 56%);
+    padding:0 2px;font-weight:800;color:var(--b800);
+  }
+  .muted{color:var(--muted)}
+  .small{font-size:.86rem;line-height:1.5}
+
+  /* ---------- STEPS ---------- */
+  .steps{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .steps li{
+    display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;
+    background:var(--b50);border:1px solid #e3efff;border-radius:14px;
+    padding:11px 14px;font-size:.97rem;line-height:1.5;
+  }
+  .steps .n{
+    width:26px;height:26px;border-radius:9px;background:#fff;
+    border:1px solid var(--b300);color:var(--b700);
+    display:grid;place-items:center;font-weight:800;font-size:.78rem;flex:none;
+  }
+  .steps b{color:var(--b800)}
+
+  /* ---------- VERB CHIPS ---------- */
+  .verb-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .verb{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    background:var(--b50);border:1px solid #e3efff;border-left:4px solid var(--b500);
+    padding:10px 13px;border-radius:12px;transition:.2s;
+  }
+  .verb:hover{background:#e8f2ff;border-left-color:var(--b700);transform:translateX(2px)}
+  .verb b{font-weight:800;color:var(--b800);font-size:.95rem}
+  .verb span{color:var(--muted);font-size:.82rem;text-align:right}
+
+  /* ---------- MINI LISTS ---------- */
+  .mini-card h3{
+    font-family:'Baloo 2',sans-serif;font-size:1.05rem;color:var(--b700);
+    margin:0 0 10px;display:flex;align-items:center;gap:8px;
+  }
+  .mini-card ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+  .mini-card li{
+    font-size:.9rem;line-height:1.45;padding-left:16px;position:relative;
+  }
+  .mini-card li::before{
+    content:"";position:absolute;left:0;top:.5em;
+    width:7px;height:7px;border-radius:50%;
+    background:var(--b300);
+  }
+  .mini-card li b{color:var(--b800)}
+  .mini-card li i{font-style:normal;color:var(--muted)}
+
+  /* ---------- CONNECTORS ---------- */
+  .say-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .say{
+    background:var(--b50);border:1px solid #e3efff;border-radius:14px;
+    padding:12px 15px;transition:.2s;
+  }
+  .say:hover{background:#e8f2ff;transform:translateY(-2px)}
+  .say b{display:block;color:var(--b800);font-size:1rem;margin-bottom:3px}
+  .say span{color:var(--muted);font-size:.85rem}
+
+  /* ---------- CHECKLIST ---------- */
+  .checklist{list-style:none;margin:0 0 12px;padding:0;display:grid;gap:9px}
+  .check{
+    display:flex;align-items:center;gap:12px;
+    background:var(--b50);border:1px solid #e3efff;border-radius:14px;
+    padding:12px 15px;cursor:pointer;font-size:.97rem;transition:.2s;
+    user-select:none;
+  }
+  .check:hover{border-color:var(--b300);background:#eaf4ff}
+  .check input{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
+  .check .box{
+    width:22px;height:22px;border-radius:7px;border:2px solid var(--b300);
+    background:#fff;display:grid;place-items:center;flex:none;transition:.2s;
+  }
+  .check .box::after{
+    content:"✓";font-size:.78rem;font-weight:800;color:#fff;
+    opacity:0;transform:scale(.4);transition:.2s;
+  }
+  .check input:checked + .box{background:var(--b600);border-color:var(--b600)}
+  .check input:checked + .box::after{opacity:1;transform:scale(1)}
+  .check input:checked ~ .txt{color:var(--muted);text-decoration:line-through}
+
+  .score{
+    display:inline-flex;align-items:center;gap:8px;
+    background:#fff;border:1px solid var(--b100);border-radius:999px;
+    padding:8px 16px;font-weight:800;color:var(--b700);font-size:.85rem;
+    box-shadow:0 10px 22px -18px rgba(9,42,84,.9);
+  }
+  .score b{color:var(--b600)}
+
+  /* ---------- ADAPT CARDS ---------- */
+  .adapt{
+    background:var(--b50);border:1px solid #e3efff;border-radius:16px;
+    padding:14px 16px;border-top:4px solid var(--b500);transition:.2s;
+  }
+  .adapt:hover{transform:translateY(-3px);box-shadow:0 16px 30px -22px rgba(9,42,84,.75)}
+  .adapt .tag{
+    display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.1em;
+    text-transform:uppercase;color:#fff;background:var(--b600);
+    padding:4px 11px;border-radius:999px;margin-bottom:9px;
+  }
+  .adapt.b1 .tag{background:var(--b800)}
+  .adapt.b2 .tag{background:var(--b500)}
+  .adapt.b3 .tag{background:var(--b700)}
+  .adapt p{font-size:.9rem;line-height:1.5;margin:0;color:var(--ink)}
+
+  /* ---------- HERO ---------- */
+  .hero{display:grid;place-items:center}
+  .hero-card{
+    position:relative;overflow:hidden;width:min(920px,100%);
+    background:linear-gradient(150deg,var(--b800) 0%,var(--b700) 46%,var(--b600) 100%);
+    color:#fff;border-radius:28px;
+    padding:clamp(26px,4vw,54px);
+    box-shadow:0 34px 70px -34px rgba(6,34,66,.9);
+    text-align:center;
+  }
+  .hero-card::before{
+    content:"";position:absolute;width:360px;height:360px;border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, rgba(143,188,247,.55), transparent 66%);
+    top:-140px;right:-100px;
+  }
+  .hero-card::after{
+    content:"";position:absolute;width:280px;height:280px;border-radius:50%;
+    background:radial-gradient(circle at 60% 40%, rgba(47,127,235,.55), transparent 66%);
+    bottom:-130px;left:-80px;
+  }
+  .hero-card > *{position:relative;z-index:1}
+  .eyebrow{
+    display:inline-block;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+    font-weight:800;color:#c7ddfd;background:rgba(255,255,255,.13);
+    border:1px solid rgba(255,255,255,.24);padding:7px 16px;border-radius:999px;
+  }
+  .hero-card h1{
+    font-family:'Baloo 2',sans-serif;
+    font-size:clamp(2.1rem,5.4vw,3.5rem);
+    margin:18px 0 6px;line-height:1.04;letter-spacing:-.01em;
+  }
+  .hero-sub{
+    margin:0 0 24px;color:#cfe2ff;font-weight:800;
+    letter-spacing:.08em;text-transform:uppercase;font-size:.82rem;
+  }
+  .pills{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:22px}
+  .pill{
+    background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.26);
+    padding:8px 17px;border-radius:999px;font-weight:700;font-size:.88rem;
+  }
+  .hint{font-size:.82rem;color:#a9c8f2;margin:0}
+
+  /* ---------- FOOTER ---------- */
+  footer{display:grid;gap:10px;padding:10px clamp(14px,3vw,34px) 18px}
+  .progress{height:6px;border-radius:999px;background:#cfe0fb;overflow:hidden}
+  .progress i{
+    display:block;height:100%;width:10%;border-radius:999px;
+    background:linear-gradient(90deg,var(--b500),var(--b700));
+    transition:width .42s cubic-bezier(.22,.8,.25,1);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:14px}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    border:1px solid #d5e6ff;background:#fff;color:var(--b700);
+    font-family:inherit;font-weight:800;font-size:.88rem;
+    padding:11px 18px;border-radius:14px;cursor:pointer;
+    box-shadow:0 12px 24px -18px rgba(9,42,84,.95);
+    transition:background .2s,color .2s,transform .2s,border-color .2s;
+    white-space:nowrap;
+  }
+  .btn:hover:not(:disabled){
+    background:var(--b600);color:#fff;border-color:var(--b600);transform:translateY(-1px);
+  }
+  .btn:disabled{opacity:.38;cursor:not-allowed}
+  .dots{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+  .dot{
+    width:10px;height:10px;border-radius:50%;border:none;padding:0;
+    background:#bdd6f8;cursor:pointer;transition:all .25s;
+  }
+  .dot:hover{background:var(--b500)}
+  .dot.active{background:var(--b700);width:26px;border-radius:999px}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:900px){
+    .two-col,.cols,.verb-grid,.adapt-grid,.say-grid{grid-template-columns:1fr}
+    .brand small{display:none}
+  }
+  @media (max-width:560px){
+    .brand .name{display:none}
+    .btn{padding:10px 13px;font-size:.8rem}
+    .btn .lbl{display:none}
+    .counter{font-size:.76rem;padding:6px 12px}
+    .slide{padding:12px 14px 24px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .slide{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ================= TOPBAR ================= -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">EN</span>
+      <div class="name">
+        Writing Task
+        <small>English · Língua Inglesa</small>
+      </div>
+    </div>
+    <div class="counter"><b id="cur">1</b> / <span id="tot">10</span></div>
+  </header>
+
+  <!-- ================= STAGE ================= -->
+  <main class="stage" id="stage">
+
+    <!-- ---------- SLIDE 1 · CAPA ---------- -->
+    <section class="slide hero active">
+      <div class="hero-card">
+        <span class="eyebrow">Writing Task · Simple Present</span>
+        <h1>My Daily Routine</h1>
+        <p class="hero-sub">Minha Rotina Diária</p>
+        <div class="pills">
+          <span class="pill">Níveis A1–B1</span>
+          <span class="pill">5 a 8 frases</span>
+          <span class="pill">3 expressões de tempo</span>
+          <span class="pill">5 verbos diferentes</span>
+        </div>
+        <p class="hint">Use as setas ← → do teclado, os botões abaixo ou deslize na tela</p>
+      </div>
+    </section>
+
+    <!-- ---------- SLIDE 2 · ENUNCIADO ---------- -->
+    <section class="slide">
+      <h2 class="slide-title"><span class="badge">01</span> Enunciado / Task</h2>
+      <div class="two-col">
+
+        <div class="card">
+          <span class="lang"><span class="flag">🇬🇧</span> English</span>
+          <p><strong>Task: My Daily Routine</strong></p>
+          <p>Write a short text about your daily routine. Use the simple present tense and time expressions. Write <span class="hl">5 to 8 sentences</span> describing what you do on a normal day, from the moment you wake up until you go to sleep.</p>
+          <p>Include at least <span class="hl">3 time expressions</span> (e.g., <em>at 7 a.m., in the morning, after lunch</em>) and <span class="hl">5 different verbs</span>.</p>
+          <p>Be creative and add details about your life!</p>
+        </div>
+
+        <div class="card">
+          <span class="lang"><span class="flag">🇧🇷</span> Português</span>
+          <p><strong>Tarefa: Minha Rotina Diária</strong></p>
+          <p>Escreva um texto curto sobre a sua rotina diária. Use o presente simples e expressões de tempo. Escreva <span class="hl">5 a 8 frases</span> descrevendo o que você faz em um dia normal, desde o momento em que acorda até a hora de dormir.</p>
+          <p>Inclua pelo menos <span class="hl">3 expressões de tempo</span> (ex.: <em>at 7 a.m., in the morning, after lunch</em>) e <span class="hl">5 verbos diferentes</span>.</p>
+          <p>Seja criativo e acrescente detalhes sobre a sua vida!</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ---------- SLIDE 3 · INSTRUÇÕES ---------- -->
+    <section class="slide">
+      <h2 class="slide-title"><span class="badge">02</span> Instruções passo a passo</h2>
+      <div class="card">
+        <ol class="steps">
+          <li><span class="n">1</span><div><b>Planeje antes de escrever:</b> faça uma lista rápida (em português mesmo) das 5–8 coisas que você faz no dia a dia.</div></li>
+          <li><span class="n">2</span><div><b>Organize em ordem cronológica:</b> manhã → tarde → noite.</div></li>
+          <li><span class="n">3</span><div><b>Use o presente simples:</b> aqui você fala de você mesmo (<em>I</em>), então o verbo fica na forma base: <em>I wake up, I eat, I go…</em> (lembre-se do <em>-s</em> apenas em <em>he/she/it</em>).</div></li>
+          <li><span class="n">4</span><div><b>Inclua expressões de tempo</b> no início ou no fim das frases.</div></li>
+          <li><span class="n">5</span><div><b>Use conectores</b> para ligar as ideias: <em>then, after that, next, finally</em>.</div></li>
+          <li><span class="n">6</span><div><b>Revise:</b> confira se há pelo menos 3 expressões de tempo e 5 verbos diferentes.</div></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ---------- SLIDE 4 · VERBOS 1 ---------- -->
+    <section class="slide">
+      <h2 class="slide-title"><span class="badge">03</span> Banco de verbos úteis</h2>
+      <div class="verb-grid">
+        <div class="verb"><b>wake up</b><span>acordar</span></div>
+        <div class="verb"><b>get up</b><span>levantar-se</span></div>
+        <div class="verb"><b>take a shower</b><span>tomar banho</span></div>
+        <div class="verb"><b>brush my teeth</b><span>escovar os dentes</span></div>
+        <div class="verb"><b>get dressed</b><span>vestir-se</span></div>
+        <div class="verb"><b>have breakfast / lunch / dinner</b><span>tomar café / almoçar / jantar</span></div>
+        <div class="verb"><b>eat</b><span>comer</span></div>
+        <div class="verb"><b>drink</b><span>beber</span></div>
+        <div class="verb"><b>go to school / work</b><span>ir à escola / ao trabalho</span></div>
+        <div class="verb"><b>study</b><span>estudar</span></div>
+        <div class="verb"><b>work</b><span>trabalhar</span></div>
+        <div class="verb"><b>cook</b><span>cozinhar</span></div>
+      </div>
+    </section>
+
+    <!-- ---------- SLIDE 5 · VERBOS 2 ---------- -->
+    <section class="slide">
+      <h2 class="slide-title"><span class="badge">04</span> Banco de verbos úteis <span class="muted" style="font-size:.65em;font-family:'Nunito',sans-serif;font-weight:800">(cont.)</span></h2>
+      <div class="verb-grid">
+        <div class="verb"><b>clean the house</b><span>limpar a casa</span></div>
+        <div class="verb"><b>watch TV</b><span>assistir TV</span></div>
+        <div class="verb"><b>listen to music</b><span>ouvir música</span></div>
+        <div class="verb"><b>play (sports / games)</b><span>jogar / praticar</span></div>
+        <div class="verb"><b>exercise / work out</b><span>exercitar-se / malhar</span></div>
+        <div class="verb"><b>read</b><span>ler</span></div>
+        <div class="verb"><b>check my phone</b><span>checar o celular</span></div>
+        <div class="verb"><b>relax</b><span>relaxar</span></div>
+        <div class="verb"><b>go to bed</b><span>ir para a cama</span></div>
+        <div class="verb"><b>sleep</b><span>dormir</span></div>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <p class="small"><b style="color:var(--b800)">💡 Dica:</b> depois de <em>I</em>, use o verbo na forma base — <em>I wake up, I cook, I relax</em>. Nunca use <em>I am wake up</em>.</p>
+      </div>
+    </section>
+
+    <!-- ---------- SLIDE 6 · EXPRESSÕES DE TEMPO ---------- -->
+    <section class="slide">
+      <h2 class="slide-title"><span class="badge">05</span> Expressões de tempo</h2>
+      <div class="cols">
+
+        <div class="card mini-card">
+          <h3>🕐 Horas</h3>
+          <ul>
+            <li><b>at 6 a.m. / at 7 o'clock</b><br><i>às 6 da manhã / às 7 em ponto</i></li>
+            <li><b>at noon</b><br><i>ao meio-dia</i></li>
+            <li><b>at midnight</b><br><i>à meia-noite</i></li>
+          </ul>
+        </div>
+
+        <div class="card mini-card">
+          <h3>🌤️ Partes do dia</h3>
+          <ul>
+            <li><b>in the morning</b><br><i>de manhã</i></li>
+            <li><b>in the afternoon</b><br><i>à tarde</i></li>
+            <li><b>in the evening</b><br><i>no fim da tarde / à noite</i></li>
+            <li><b>at night</b><br><i>à noite</i></li>
+          </ul>
+        </div>
+
+        <div class="card mini-card">
+          <h3>🔁 Frequência e sequência</h3>
+          <ul>
+            <li><b>every day</b> · <i>todos os dias</i></li>
+            <li><b>usually</b> · <i>geralmente</i></li>
+            <li><b>sometimes</b> · <i>às vezes</i></li>
+            <li><b>always / never</b> · <i>sempre / nunca</i></li>
+            <li><b>before / after</b> · <i>antes / depois</i></li>
+            <li><b>first / then / after that / next / finally</b><br><i>primeiro / então / depois disso / em seguida / finalmente</i></li>
+            <li><b>early / late</b> · <i>cedo / tarde</i></li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ---------- SLIDE 7 · CONECTORES ---------- -->
+    <section class="slide">
+      <h2 class="slide-title"><span class="badge">06</span> Conectores e expressões extras</h2>
+      <div class="say-grid">
+        <div class="say"><b>In the morning, I…</b><span>De manhã, eu…</span></div>
+        <div class="say"><b>After that, I…</b><span>Depois disso, eu…</span></div>
+        <div class="say"><b>Then, I…</b><span>Então, eu…</span></div>
+        <div class="say"><b>Before I go to work, I…</b><span>Antes de ir ao trabalho, eu…</span></div>
+        <div class="say"><b>When I get home, I…</b><span>Quando chego em casa, eu…</span></div>
+        <div class="say"><b>Finally, I…</b><span>Por fim, eu…</span></div>
+        <div class="say"><b>I usually… but sometimes I…</b><span>Eu geralmente… mas às vezes eu…</span></div>
+        <div class="say"><b>Every day / On weekdays, I…</b><span>Todos os dias / Nos dias de semana, eu…</span></div>
+      </div>
+    </section>
+
+    <!-- ---------- SLIDE 8 · CHECKLIST ---------- -->
+    <section class="slide">
+      <h2 class="slide-title"><span class="badge">07</span> Checklist de autoavaliação</h2>
+      <div class="card">
+        <ul class="checklist">
+          <li><label class="check"><input type="checkbox"><span class="box"></span><span class="txt">Escrevi entre 5 e 8 frases?</span></label></li>
+          <li><label class="check"><input type="checkbox"><span class="box"></span><span class="txt">Usei o <b>presente simples</b> corretamente?</span></label></li>
+          <li><label class="check"><input type="checkbox"><span class="box"></span><span class="txt">Incluí pelo menos <b>3 expressões de tempo</b>?</span></label></li>
+          <li><label class="check"><input type="checkbox"><span class="box"></span><span class="txt">Usei pelo menos <b>5 verbos diferentes</b>?</span></label></li>
+          <li><label class="check"><input type="checkbox"><span class="box"></span><span class="txt">Usei conectores (<em>then, after that, finally</em>)?</span></label></li>
+          <li><label class="check"><input type="checkbox"><span class="box"></span><span class="txt">As frases estão em <b>ordem cronológica</b> (manhã → noite)?</span></label></li>
+        </ul>
+        <span class="score">Concluídos: <b id="score">0</b> / 6</span>
+      </div>
+    </section>
+
+    <!-- ---------- SLIDE 9 · ADAPTAÇÕES ---------- -->
+    <section class="slide">
+      <h2 class="slide-title"><span class="badge">08</span> Adaptações por nível</h2>
+      <div class="adapt-grid">
+        <div class="adapt">
+          <span class="tag">A1 · Crianças</span>
+          <p>Peça 5 frases com desenhos ao lado de cada ação; ofereça o banco de verbos como apoio visual.</p>
+        </div>
+        <div class="adapt b2">
+          <span class="tag">A1 · Adultos</span>
+          <p>5–6 frases; foque em horários e ações principais do dia.</p>
+        </div>
+        <div class="adapt b3">
+          <span class="tag">A2</span>
+          <p>7–8 frases + conectores obrigatórios (<em>then, after that, finally</em>).</p>
+        </div>
+        <div class="adapt b1">
+          <span class="tag">B1 · Desafio extra</span>
+          <p>Acrescente uma frase comparando dias de semana e fins de semana (<em>On weekdays I…, but on weekends I…</em>) ou use advérbios de frequência (<em>usually, sometimes, rarely</em>).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- SLIDE 10 · FECHAMENTO ---------- -->
+    <section class="slide hero">
+      <div class="hero-card">
+        <span class="eyebrow">Now it's your turn</span>
+        <h1>Ready? Write your routine!</h1>
+        <p class="hero-sub">Agora é com você!</p>
+        <div class="pills">
+          <span class="pill">5–8 frases</span>
+          <span class="pill">Presente simples</span>
+          <span class="pill">3 expressões de tempo</span>
+          <span class="pill">5 verbos</span>
+        </div>
+        <p class="hint">Revise com o checklist antes de entregar · Boa escrita! ✍️</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer>
+    <div class="progress"><i id="bar"></i></div>
+    <div class="nav">
+      <button class="btn" id="prev" type="button" aria-label="Slide anterior">
+        ← <span class="lbl">Anterior</span>
+      </button>
+      <div class="dots" id="dots"></div>
+      <button class="btn" id="next" type="button" aria-label="Próximo slide">
+        <span class="lbl">Próximo</span> →
+      </button>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  const slides   = Array.from(document.querySelectorAll('.slide'));
+  const dotsWrap = document.getElementById('dots');
+  const curEl    = document.getElementById('cur');
+  const totEl    = document.getElementById('tot');
+  const bar      = document.getElementById('bar');
+  const prevBtn  = document.getElementById('prev');
+  const nextBtn  = document.getElementById('next');
+  const stage    = document.getElementById('stage');
+
+  let index = 0;
+
+  /* ---------- build dots ---------- */
+  totEl.textContent = slides.length;
+  slides.forEach(function (_, n) {
+    const d = document.createElement('button');
+    d.type = 'button';
+    d.className = 'dot';
+    d.setAttribute('aria-label', 'Ir para o slide ' + (n + 1));
+    d.addEventListener('click', function () { go(n); });
+    dotsWrap.appendChild(d);
+  });
+  const dots = Array.from(dotsWrap.children);
+
+  /* ---------- render state ---------- */
+  function render() {
+    curEl.textContent = index + 1;
+    dots.forEach(function (d, n) { d.classList.toggle('active', n === index); });
+    bar.style.width = ((index + 1) / slides.length * 100) + '%';
+    prevBtn.disabled = index === 0;
+    nextBtn.disabled = index === slides.length - 1;
+  }
+
+  /* ---------- navigation ---------- */
+  function go(n) {
+    if (n === index || n < 0 || n >= slides.length) return;
+
+    const dir = n > index ? 1 : -1;
+    const old = slides[index];
+
+    old.classList.remove('active');
+    old.classList.add(dir === 1 ? 'exit-left' : 'exit-right');
+    window.setTimeout(function () {
+      old.classList.remove('exit-left', 'exit-right');
+    }, 540);
+
+    index = n;
+    const target = slides[index];
+
+    target.classList.remove('exit-left', 'exit-right');
+    target.scrollTop = 0;
+    void target.offsetWidth;          // força reflow para a transição iniciar do estado base
+    target.classList.add('active');
+
+    render();
+  }
+
+  function next() { go(Math.min(index + 1, slides.length - 1)); }
+  function prev() { go(Math.max(index - 1, 0)); }
+
+  nextBtn.addEventListener('click', next);
+  prevBtn.addEventListener('click', prev);
+
+  /* ---------- keyboard ---------- */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+      e.preventDefault(); next();
+    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      e.preventDefault(); prev();
+    } else if (e.key === 'Home') {
+      e.preventDefault(); go(0);
+    } else if (e.key === 'End') {
+      e.preventDefault(); go(slides.length - 1);
+    }
+  });
+
+  /* ---------- swipe (touch) ---------- */
+  let startX = null;
+  stage.addEventListener('touchstart', function (e) {
+    startX = e.touches[0].clientX;
+  }, { passive: true });
+
+  stage.addEventListener('touchend', function (e) {
+    if (startX === null) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 55) { dx < 0 ? next() : prev(); }
+    startX = null;
+  }, { passive: true });
+
+  /* ---------- checklist counter ---------- */
+  const checks  = Array.from(document.querySelectorAll('.checklist input[type="checkbox"]'));
+  const scoreEl = document.getElementById('score');
+  checks.forEach(function (c) {
+    c.addEventListener('change', function () {
+      scoreEl.textContent = checks.filter(function (x) { return x.checked; }).length;
+    });
+  });
+
+  /* ---------- init ---------- */
+  render();
+})();
+</script>
+
+</body>
+</html>
